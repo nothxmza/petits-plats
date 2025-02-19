@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+		.font-anton {
+			font-family: 'Anton', sans-serif;
+			font-family: "Anton", serif;
+			font-weight: 400;
+			font-style: normal;
+		}
+		input:focus-visible {
+			outline: none;
+		}

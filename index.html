@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+	<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="./css/styles.css">
+	<title>Document</title>
+</head>
+<body>
+	<header style="background-image: url(/assets/images/home.jpeg);" class="relative bg-cover bg-center h-150">
+		<div class="absolute inset-0 z-1" style="background: #0000004D;"></div>
+		<div class="relative z-10 flex flex-col items-center justify-center h-full text-center" >
+			<div class="absolute top-5 left-5 text-lg">
+				<img src="./assets/logo/Logo.png" alt="" class="h-6 z-10">
+			</div>
+			<div class="text-yellow flex gap-10 flex-col w-200">
+				<h1 class="font-anton text-4xl text-yellow-300 leading-13">CHERCHEZ PARMI PLUS DE 1500 RECETTES<br> DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES</h1>
+				<div class="relative w-full bg-white rounded-lg flex items-center ">
+					<input type="text" placeholder="Rechercher une recette, un ingrédient, ..." class="w-full p-4 pl-8 rounded-lg text-gray-800" />
+					<!-- <button class="mr-1 text-grey w-10 h-10  rounded-lg"><i class="fa-solid fa-x"></i></button> -->
+					<button class="mr-2 text-white w-10 h-10 bg-black rounded-lg"><i class="fa-solid fa-magnifying-glass"></i></button>
+				</div>
+			</div>
+		</div>
+		
+	</header>
+	<main class="bg-gray-200">
+		<section class="filter max-w-6xl mx-auto h-full">
+			<div class="flex justify-between  pt-5">
+				<div class="flex gap-20">
+					<div class="flex flex-col w-60">
+						<button class="flex items-center justify-between w-full bg-white p-4 rounded-lg toggle-ingredient" onclick="toggleIngredient()">
+							ingrédient <i class="fa-solid fa-chevron-down chevron-select"></i>
+						</button>
+						<div class="ingredient-list hidden">
+							<button class="flex items-center justify-between w-full bg-white p-4 rounded-t-lg btn-ingredient-list">
+							ingrédient <i class="fa-solid fa-chevron-up chevron-select"></i>
+							</button>
+							<div class="flex flex-col gap-5 bg-white px-4 pb-4">
+								<div class="relative w-full bg-white rounded-lg flex items-center">
+									<input type="text" class="border-1 border-gray-300 rounded-sm p-2 text-gray-400" />
+									<i class="fa-solid fa-magnifying-glass absolute right-5 text-gray-300"></i>
+								</div>
+								<ul>
+									<li>
+										few
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="flex flex-col w-60">
+						<button class="flex items-center justify-between w-full bg-white p-4 rounded-lg toggle-devices" onclick="toggleDevices()">
+							Appareils <i class="fa-solid fa-chevron-down chevron-select"></i>
+						</button>
+						<div class="devices-list rounded-b-lg hidden">
+							<button class="flex items-center justify-between w-full bg-white p-4 rounded-t-lg btn-devices-list">
+							Appareils <i class="fa-solid fa-chevron-up chevron-select"></i>
+							</button>
+							<div class="flex flex-col gap-5 bg-white px-4 pb-4 rounded-b-lg">
+								<div class="relative w-full bg-white rounded-lg flex items-center">
+									<input type="text" class="border-1 border-gray-300 rounded-sm p-2 text-gray-400" />
+									<i class="fa-solid fa-magnifying-glass absolute right-5 text-gray-300"></i>
+								</div>
+								<ul>
+									<li>
+										few
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<p>count: 200</p>
+				</div>
+			</div>
+		</section>
+		<section>
+
+		</section>
+
+	</main>
+	<script src="/index.js"></script>
+</body>
+</html>
