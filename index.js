@@ -1,5 +1,5 @@
 import { recipes } from "./data/recipes.js";
-import { listTemplates } from "./scripts/templates/templates.js";
+import { listTemplates, cardTemplates } from "./scripts/templates/templates.js";
 
 const toggleIngredient = () => {
 	const list = document.querySelector('.ingredient-list');
@@ -61,7 +61,7 @@ const mainSearch = () => {
 	let searchValueLower = "";
 	let ingredient = [];
 	search.addEventListener('input', (e) => {
-		clearLists();
+		// clearLists();
 		searchValue = e.target.value;
 		if(searchValue.length > 2){
 			searchValueLower = searchValue.toLowerCase();
@@ -81,17 +81,32 @@ const mainSearch = () => {
 		}else{
 			filteredRecipes = [];
 		}
-		listIngredient.appendChild(listTemplates(filteredRecipes, "ingredient"));
-		listDevices.appendChild(listTemplates(filteredRecipes, "devices"));
-		listUstensils.appendChild(listTemplates(filteredRecipes, "ustensils"));
+		if(filteredRecipes.length > 0)
+			displayRecipes(filteredRecipes);
+		// listIngredient.appendChild(listTemplates(filteredRecipes, "ingredient"));
+		// listDevices.appendChild(listTemplates(filteredRecipes, "devices"));
+		// listUstensils.appendChild(listTemplates(filteredRecipes, "ustensils"));
 		//console.log(e.target.value);
 	})
 }
 
+const displayRecipes = (recipes) => {
+	//ici afficher les recettes
 
-const clearLists = () => {
-    //ici clear la list
+console.log(recipes);
+	const wrapperCard = document.getElementById('wrapper-card');
+    wrapperCard.innerHTML = "";
+    
+    recipes.forEach(recipe => {
+		const card = cardTemplates(recipe);
+			wrapperCard.appendChild(card);
+    });
+
 }
+
+// const clearLists = () => {
+//     //ici clear la list
+// }
 
 const init = async () => {
 	mainSearch();
