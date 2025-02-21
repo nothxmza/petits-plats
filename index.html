@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="./css/styles.css">
 	<title>Document</title>
 </head>
-<body>
+<body class="bg-gray-200">
 	<header style="background-image: url(/assets/images/home.jpeg);" class="relative bg-cover bg-center h-150">
 		<div class="absolute inset-0 z-1" style="background: #0000004D;"></div>
 		<div class="relative z-10 flex flex-col items-center justify-center h-full text-center" >
@@ -23,7 +23,7 @@
 			<div class="text-yellow flex gap-10 flex-col w-200">
 				<h1 class="font-anton text-4xl text-yellow-300 leading-13">CHERCHEZ PARMI PLUS DE 1500 RECETTES<br> DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES</h1>
 				<div class="relative w-full bg-white rounded-lg flex items-center ">
-					<input id="main_search" type="text" placeholder="Rechercher une recette, un ingrédient, ..." class="w-full p-4 pl-8 rounded-lg text-gray-800" />
+					<input id="main-search" type="text" placeholder="Rechercher une recette, un ingrédient, ..." class="w-full p-4 pl-8 rounded-lg text-gray-800" />
 					<!-- <button class="mr-1 text-grey w-10 h-10  rounded-lg"><i class="fa-solid fa-x"></i></button> -->
 					<button class="mr-2 text-white w-10 h-10 bg-black rounded-lg"><i class="fa-solid fa-magnifying-glass"></i></button>
 				</div>
@@ -31,16 +31,14 @@
 		</div>
 		
 	</header>
-	<main class="bg-gray-200 h-full">
-		<section class="filter max-w-7xl mx-auto">
-			<div class="flex justify-between  pt-5">
+	<main>
+		<section class=" max-w-7xl mx-auto flex flex-col gap-10 my-10">
+			<div class="flex justify-between">
 				<div class="flex gap-20">
 					<div class="flex flex-col w-60" id="ingredient">
 						<button class="flex items-center justify-between w-full bg-white p-4 rounded-lg toggle-ingredient" onclick="toggleIngredient()">
 							ingrédient <i class="fa-solid fa-chevron-down chevron-select"></i>
 						</button>
-						<!-- <div class="ingredient-list hidden">
-						</div> -->
 					</div>
 					<div class="flex flex-col w-60" id="devices">
 						<button class="flex items-center justify-between w-full bg-white p-4 rounded-lg toggle-devices" onclick="toggleDevices()">
@@ -57,9 +55,10 @@
 					<p>count: 200</p>
 				</div>
 			</div>
-		</section>
-		<section class="filter max-w-7xl mx-auto my-10">
-			<div id="wrapper-card" class="grid grid-cols-3 gap-8">
+			<div id="tag-container" class="flex gap-2">
+
+			</div>
+			<div id="wrapper-card" class="grid grid-cols-3 gap-8 z-1">
 			</div>
 		</section>
 	</main>

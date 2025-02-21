@@ -21,13 +21,20 @@ export const listTemplates = (data, type) => {
 	searchDiv.className = 'flex flex-col gap-5 bg-white px-4 pb-4 rounded-b-lg';
 	searchDiv.innerHTML = `
 		<div class="relative w-full bg-white rounded-lg flex items-center">
-			<input type="text" class="border-1 border-gray-300 rounded-sm p-2 text-gray-400" />
+			<input id=${type}-search type="text" class="border-1 border-gray-300 rounded-sm p-2 text-gray-400" />
 			<i class="fa-solid fa-magnifying-glass absolute right-5 text-gray-300"></i>
 		</div>
 	`;
 
 	const ul = document.createElement('ul');
+	ul.id = `${type}-ul`;
 	const items = new Set();
+
+	if(data.length === 0){
+		const li = document.createElement('li');
+		li.textContent = 'Aucun élément trouvé';
+		ul.appendChild(li);
+	}
 
 	data.forEach(recipe => {
 		if (type === 'ingredient') {
@@ -49,9 +56,6 @@ export const listTemplates = (data, type) => {
 		ul.appendChild(li);
 	});
 
-
-	console.log(ul);
-
 	searchDiv.appendChild(ul);
 	container.appendChild(button);
 	container.appendChild(searchDiv);
@@ -59,11 +63,37 @@ export const listTemplates = (data, type) => {
 	return container;
 }
 
+export const updateList = (data, type) => {
+    const ulElement = document.getElementById(`${type}-ul`);
+    if (!ulElement) return;
 
+    ulElement.innerHTML = '';
+    const items = new Set();
+
+    data.forEach(recipe => {
+        if (type === 'ingredient') {
+            recipe.ingredients.forEach(ingredient => {
+                items.add(ingredient.ingredient);
+            });
+        } else if (type === 'devices') {
+            items.add(recipe.appliance);
+        } else if (type === 'ustensils') {
+            recipe.ustensils.forEach(ustensil => {
+                items.add(ustensil);
+            });
+        }
+    });
+
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        li.className = 'cursor-pointer hover:bg-yellow-100 p-1';
+        ulElement.appendChild(li);
+    });
+}
 
 export const cardTemplates = (data) => {
 
-	console.log(data);
 	const url = `/assets/images/${data.image}`;
 
 	const article = document.createElement('article');
