@@ -18,15 +18,32 @@ const mainSearch = () => {
 		searchValue = e.target.value;
 		if(searchValue.length > 2){
 			searchValueLower = searchValue.toLowerCase();
-			currentRecipes = recipes.filter(recipe => {
+			currentRecipes = [];
+
+			for(let i = 0; i < recipes.length; i++){
+				const recipe = recipes[i];
 				const recipeName = recipe.name.toLowerCase();
 				const recipeDescription = recipe.description.toLowerCase();
-				const ingredientMatch = recipe.ingredients.some(ingredient => {
-					return ingredient.ingredient.toLowerCase().includes(searchValueLower);
-				})
-				return recipeName.includes(searchValueLower) || recipeDescription.includes(searchValueLower) || ingredientMatch;
-			})
-		}else{
+				let match = false;
+	
+				if(recipeName.includes(searchValueLower) || recipeDescription.includes(searchValueLower)){
+					match = true;
+				}
+	
+				if(!match){
+					for(let j = 0; j < recipe.ingredients.length; j++){
+						if(recipe.ingredients[j].ingredient.toLowerCase().includes(searchValueLower)){
+							match = true;
+							break;
+						}
+					}
+				}
+	
+				if(match){
+					currentRecipes.push(recipe);
+				}
+			}
+		} else {
 			currentRecipes = [...recipes];
 		}
 		updateWithTags();
