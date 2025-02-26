@@ -3,7 +3,7 @@ export const listTemplates = (data, type) => {
 
 	let btnName = '';
 	if(type === 'ingredient'){
-		btnName = 'Ingrédient';
+		btnName = 'Ingrédients';
 	}else if(type === 'devices'){
 		btnName = 'Appareils';
 	}else if(type === 'ustensils'){
