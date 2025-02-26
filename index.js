@@ -69,7 +69,7 @@ const displayRecipes = () => {
 
 const displayCount = () => {
 	const countElement = document.getElementById('count');
-	countElement.textContent = currentRecipes.length;
+	countElement.textContent = `${currentRecipes.length} recettes`;
 }
 
 const  updateListDisplay = () => {
