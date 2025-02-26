@@ -50,6 +50,7 @@ export const updateWithTags = () => {
 		});
 	}
 	displayRecipes();
+	displayCount();
 	updateListDisplay();
     listSearchSort();
 };
@@ -64,6 +65,11 @@ const displayRecipes = () => {
 		const card = cardTemplates(recipe);
 			wrapperCard.appendChild(card);
     });
+}
+
+const displayCount = () => {
+	const countElement = document.getElementById('count');
+	countElement.textContent = currentRecipes.length;
 }
 
 const  updateListDisplay = () => {
@@ -88,6 +94,7 @@ const init = async () => {
 	listUstensils.appendChild(listTemplates(recipes, 'ustensils'));
 	listSearchSort();
 	displayRecipes();
+	displayCount();
 }
 
 init();
