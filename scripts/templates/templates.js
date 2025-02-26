@@ -3,22 +3,22 @@ export const listTemplates = (data, type) => {
 
 	let btnName = '';
 	if(type === 'ingredient'){
-		btnName = 'ingrédient';
+		btnName = 'Ingrédient';
 	}else if(type === 'devices'){
-		btnName = 'appareil';
+		btnName = 'Appareils';
 	}else if(type === 'ustensils'){
-		btnName = 'ustensile';
+		btnName = 'Ustensiles';
 	}
 
 	const container = document.createElement('div');
-	container.className = `${type}-list hidden`;
+	container.className = `${type}-list max-h-1 hidden `;
 
 	const button = document.createElement('button');
 	button.className = `flex items-center justify-between w-full bg-white p-4 rounded-t-lg btn-${type}-list`;
 	button.innerHTML = `${btnName} <i class="fa-solid fa-chevron-up chevron-select"></i>`;
 
 	const searchDiv = document.createElement('div');
-	searchDiv.className = 'flex flex-col gap-5 bg-white px-4 pb-4 rounded-b-lg';
+	searchDiv.className = 'flex flex-col gap-5 bg-white px-4 pb-4 rounded-b-lg max-h-80 relative overflow-y-scroll z-10';
 	searchDiv.innerHTML = `
 		<div class="relative w-full bg-white rounded-lg flex items-center">
 			<input id=${type}-search type="text" class="border-1 border-gray-300 rounded-sm p-2 text-gray-400" />
