@@ -56,6 +56,17 @@ export const updateWithTags = () => {
 	if(searchValue.length === 0)
 		currentRecipes = [...recipes];
 
+	if(searchValue.length > 2){
+		currentRecipes = recipes.filter(recipe => {
+			const recipeName = recipe.name.toLowerCase();
+			const recipeDescription = recipe.description.toLowerCase();
+			const ingredientMatch = recipe.ingredients.some(ingredient => {
+				return ingredient.ingredient.toLowerCase().includes(searchValue);
+			})
+			return recipeName.includes(searchValue) || recipeDescription.includes(searchValue) || ingredientMatch;
+		})
+	}
+
 	if (tags.size > 0) {
 		currentRecipes = currentRecipes.filter(recipe => {
 			return Array.from(tags).every(tag => {
@@ -66,6 +77,7 @@ export const updateWithTags = () => {
 			});
 		});
 	}
+
 	displayRecipes();
 	displayCount();
 	updateListDisplay();
