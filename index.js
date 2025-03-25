@@ -1,6 +1,7 @@
 import { recipes } from "./data/recipes.js";
 import { listTemplates, cardTemplates, updateList } from "./scripts/templates/templates.js";
 import { listSearch } from "./scripts/utils/list.js";
+import { displayBtnDeleteSearch, hideBtnDeleteSearch } from "./scripts/utils/mainSearch.js";
 
 
 export let currentRecipes = [...recipes];
@@ -11,40 +12,25 @@ export let count = currentRecipes ? currentRecipes.length : 0;
 const mainSearch = () => {
 	const search = document.getElementById('main-search');
 	let searchValue = "";
-	let searchValueLower = "";
+
+	search.addEventListener('keypress', (e) => {
+		if (!/[a-zA-ZÀ-ÿ\s]/.test(e.key)) {
+			e.preventDefault();
+		}
+	});
+
+	// Prevent the paste
+	search.addEventListener('paste', (e) => {
+		e.preventDefault();
+	});
 
 	//sort recipes by search value
 	search.addEventListener('input', (e) => {
 		searchValue = e.target.value;
 		if(searchValue.length > 2){
-			searchValueLower = searchValue.toLowerCase();
-			currentRecipes = [];
-
-			for(let i = 0; i < recipes.length; i++){
-				const recipe = recipes[i];
-				const recipeName = recipe.name.toLowerCase();
-				const recipeDescription = recipe.description.toLowerCase();
-				let match = false;
-	
-				if(recipeName.includes(searchValueLower) || recipeDescription.includes(searchValueLower)){
-					match = true;
-				}
-	
-				if(!match){
-					for(let j = 0; j < recipe.ingredients.length; j++){
-						if(recipe.ingredients[j].ingredient.toLowerCase().includes(searchValueLower)){
-							match = true;
-							break;
-						}
-					}
-				}
-	
-				if(match){
-					currentRecipes.push(recipe);
-				}
-			}
+			displayBtnDeleteSearch();
 		} else {
-			currentRecipes = [...recipes];
+			hideBtnDeleteSearch();
 		}
 		updateWithTags();
 	})
@@ -53,18 +39,35 @@ const mainSearch = () => {
 export const updateWithTags = () => {
 	const searchValue = document.getElementById('main-search').value;
 
-	if(searchValue.length === 0)
+	if(searchValue.length === 0){
 		currentRecipes = [...recipes];
+	}else if(searchValue.length > 2){
+		const searchValueLower = searchValue.toLowerCase();
+		currentRecipes = [];
 
-	if(searchValue.length > 2){
-		currentRecipes = recipes.filter(recipe => {
+		for(let i = 0; i < recipes.length; i++){
+			const recipe = recipes[i];
 			const recipeName = recipe.name.toLowerCase();
 			const recipeDescription = recipe.description.toLowerCase();
-			const ingredientMatch = recipe.ingredients.some(ingredient => {
-				return ingredient.ingredient.toLowerCase().includes(searchValue);
-			})
-			return recipeName.includes(searchValue) || recipeDescription.includes(searchValue) || ingredientMatch;
-		})
+			let match = false;
+
+			if(recipeName.includes(searchValueLower) || recipeDescription.includes(searchValueLower)){
+				match = true;
+			}
+
+			if(!match){
+				for(let j = 0; j < recipe.ingredients.length; j++){
+					if(recipe.ingredients[j].ingredient.toLowerCase().includes(searchValueLower)){
+						match = true;
+						break;
+					}
+				}
+			}
+
+			if(match){
+				currentRecipes.push(recipe);
+			}
+		}
 	}
 
 	if (tags.size > 0) {
