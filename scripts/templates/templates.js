@@ -22,6 +22,7 @@ export const listTemplates = (data, type) => {
 	searchDiv.innerHTML = `
 		<div class="relative w-full bg-white rounded-lg flex items-center">
 			<input id=${type}-search type="text" class="border-1 border-gray-300 rounded-sm p-2 text-gray-400" />
+			<button id=btn-delete-search-tag-${type} class="text-grey rounded-lg absolute right-10 text-xs hidden"><i class="fa-solid fa-x text-gray-300"></i></button>
 			<i class="fa-solid fa-magnifying-glass absolute right-5 text-gray-300"></i>
 		</div>
 	`;
@@ -52,7 +53,7 @@ export const listTemplates = (data, type) => {
 	items.forEach(item => {
 		const li = document.createElement('li');
 		li.textContent = item;
-		li.className = 'cursor-pointer hover:bg-yellow-100 p-1';
+		li.className = 'cursor-pointer hover:bg-yellow-400 p-1';
 		ul.appendChild(li);
 	});
 
@@ -87,7 +88,7 @@ export const updateList = (data, type) => {
     items.forEach(item => {
         const li = document.createElement('li');
         li.textContent = item;
-        li.className = 'cursor-pointer hover:bg-yellow-100 p-1';
+        li.className = 'cursor-pointer hover:bg-yellow-400 p-1';
         ulElement.appendChild(li);
     });
 }

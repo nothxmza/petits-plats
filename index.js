@@ -1,6 +1,7 @@
 import { recipes } from "./data/recipes.js";
 import { listTemplates, cardTemplates, updateList } from "./scripts/templates/templates.js";
 import { listSearch } from "./scripts/utils/list.js";
+import { displayBtnDeleteSearch, hideBtnDeleteSearch } from "./scripts/utils/mainSearch.js";
 
 
 export let currentRecipes = [...recipes];
@@ -11,23 +12,26 @@ export let count = currentRecipes ? currentRecipes.length : 0;
 const mainSearch = () => {
 	const search = document.getElementById('main-search');
 	let searchValue = "";
-	let searchValueLower = "";
+
+	//Prevent characters other than letters
+	search.addEventListener('keypress', (e) => {
+		if (!/[a-zA-ZÀ-ÿ\s]/.test(e.key)) {
+			e.preventDefault();
+		}
+	});
+
+	// Prevent the paste
+	search.addEventListener('paste', (e) => {
+		e.preventDefault();
+	});
 
 	//sort recipes by search value
 	search.addEventListener('input', (e) => {
 		searchValue = e.target.value;
 		if(searchValue.length > 2){
-			searchValueLower = searchValue.toLowerCase();
-			currentRecipes = recipes.filter(recipe => {
-				const recipeName = recipe.name.toLowerCase();
-				const recipeDescription = recipe.description.toLowerCase();
-				const ingredientMatch = recipe.ingredients.some(ingredient => {
-					return ingredient.ingredient.toLowerCase().includes(searchValueLower);
-				})
-				return recipeName.includes(searchValueLower) || recipeDescription.includes(searchValueLower) || ingredientMatch;
-			})
+			displayBtnDeleteSearch();
 		}else{
-			currentRecipes = [...recipes];
+			hideBtnDeleteSearch();
 		}
 		updateWithTags();
 	})
@@ -36,17 +40,17 @@ const mainSearch = () => {
 export const updateWithTags = () => {
 	const searchValue = document.getElementById('main-search').value;
 
-	if(searchValue.length === 0)
+	if(searchValue.length === 0) {
 		currentRecipes = [...recipes];
-
-	if(searchValue.length > 2){
+	} else if(searchValue.length > 2) {
 		currentRecipes = recipes.filter(recipe => {
+			const searchValueLower = searchValue.toLowerCase();
 			const recipeName = recipe.name.toLowerCase();
 			const recipeDescription = recipe.description.toLowerCase();
 			const ingredientMatch = recipe.ingredients.some(ingredient => {
-				return ingredient.ingredient.toLowerCase().includes(searchValue);
+				return ingredient.ingredient.toLowerCase().includes(searchValueLower);
 			})
-			return recipeName.includes(searchValue) || recipeDescription.includes(searchValue) || ingredientMatch;
+			return recipeName.includes(searchValueLower) || recipeDescription.includes(searchValueLower) || ingredientMatch;
 		})
 	}
 
