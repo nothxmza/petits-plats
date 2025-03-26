@@ -1,6 +1,8 @@
+import { tags } from "../../index.js";
 
+// listTemplates function
+// This function will create a list of ingredients, devices, or ustensils
 export const listTemplates = (data, type) => {
-
 	let btnName = '';
 	if(type === 'ingredient'){
 		btnName = 'Ingrédients';
@@ -10,53 +12,52 @@ export const listTemplates = (data, type) => {
 		btnName = 'Ustensiles';
 	}
 
-	const container = document.createElement('div');
+	let container = document.createElement('div');
 	container.className = `${type}-list max-h-1 hidden `;
 
-	const button = document.createElement('button');
+	let button = document.createElement('button');
 	button.className = `flex items-center justify-between w-full bg-white p-4 rounded-t-lg btn-${type}-list`;
 	button.innerHTML = `${btnName} <i class="fa-solid fa-chevron-up chevron-select"></i>`;
 
-	const searchDiv = document.createElement('div');
+	let searchDiv = document.createElement('div');
 	searchDiv.className = 'flex flex-col gap-5 bg-white px-4 pb-4 rounded-b-lg max-h-80 relative overflow-y-scroll z-10';
 	searchDiv.innerHTML = `
 		<div class="relative w-full bg-white rounded-lg flex items-center">
-			<input id=${type}-search type="text" class="border-1 border-gray-300 rounded-sm p-2 text-gray-400" />
+			<input id=${type}-search type="text" class="border-1 border-gray-300 rounded-sm p-2 text-gray-400"/>
 			<button id=btn-delete-search-tag-${type} class="text-grey rounded-lg absolute right-10 text-xs hidden"><i class="fa-solid fa-x text-gray-300"></i></button>
 			<i class="fa-solid fa-magnifying-glass absolute right-5 text-gray-300"></i>
 		</div>
 	`;
 
-	const ul = document.createElement('ul');
+	let ul = document.createElement('ul');
 	ul.id = `${type}-ul`;
-	const items = new Set();
+	let items = new Set();
 
 	if(data.length === 0){
 		const li = document.createElement('li');
 		li.textContent = 'Aucun élément trouvé';
 		ul.appendChild(li);
+	}else{
+		data.forEach(recipe => {
+			if (type === 'ingredient') {
+				recipe.ingredients.forEach(ingredient => {
+					items.add(ingredient.ingredient);
+				});
+			} else if (type === 'devices') {
+				items.add(recipe.appliance);
+			} else if (type === 'ustensils') {
+				recipe.ustensils.forEach(ustensil => {
+					items.add(ustensil);
+				});
+			}
+		});
+		items.forEach(item => {
+			let li = document.createElement('li');
+			li.textContent = item;
+			li.className = 'cursor-pointer hover:bg-yellow-400 p-1';
+			ul.appendChild(li);
+		});
 	}
-
-	data.forEach(recipe => {
-		if (type === 'ingredient') {
-			recipe.ingredients.forEach(ingredient => {
-				items.add(ingredient.ingredient);
-			});
-		} else if (type === 'devices') {
-			items.add(recipe.appliance);
-		} else if (type === 'ustensils') {
-			recipe.ustensils.forEach(ustensil => {
-				items.add(ustensil);
-			});
-		}
-	});
-	items.forEach(item => {
-		const li = document.createElement('li');
-		li.textContent = item;
-		li.className = 'cursor-pointer hover:bg-yellow-400 p-1';
-		ul.appendChild(li);
-	});
-
 	searchDiv.appendChild(ul);
 	container.appendChild(button);
 	container.appendChild(searchDiv);
@@ -64,12 +65,13 @@ export const listTemplates = (data, type) => {
 	return container;
 }
 
+// updateList function
+// This function will update the list of ingredients, devices, or ustensils
 export const updateList = (data, type) => {
-    const ulElement = document.getElementById(`${type}-ul`);
+    let ulElement = document.getElementById(`${type}-ul`);
     if (!ulElement) return;
-
     ulElement.innerHTML = '';
-    const items = new Set();
+    let items = new Set();
 
     data.forEach(recipe => {
         if (type === 'ingredient') {
@@ -85,21 +87,24 @@ export const updateList = (data, type) => {
         }
     });
 
+	// Add items to the list
     items.forEach(item => {
+		if(!tags.has(item)){
         const li = document.createElement('li');
         li.textContent = item;
         li.className = 'cursor-pointer hover:bg-yellow-400 p-1';
         ulElement.appendChild(li);
+		}
     });
 }
 
+// cardTemplates function
+// This function will create a card for each recipe
 export const cardTemplates = (data) => {
-
 	const url = `/assets/images/${data.image}`;
+	let article = document.createElement('article');
 
-	const article = document.createElement('article');
 	article.className = 'bg-white rounded-lg';
-	
 	article.innerHTML = `
 		<div class="relative">
 			<img src="${url}" alt="" class="w-full h-60 object-cover rounded-t-lg">
@@ -126,4 +131,11 @@ export const cardTemplates = (data) => {
 	`;
 	
 	return article;
+}
+
+export const noResultMessageTemplate = (searchValue) => {
+	let noResult = document.createElement('div');
+	noResult.className = 'text-center';
+	noResult.textContent = `Aucun résultat trouvé pour ${searchValue} vous pouvez chercher tarte au citron par exemple`;
+	return noResult;
 }
