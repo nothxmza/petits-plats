@@ -32,11 +32,11 @@ const mainSearch = () => {
 		} else {
 			hideBtnDeleteSearch();
 		}
-		updateWithTags();
+		filterRecipes();
 	})
 }
 
-export const updateWithTags = () => {
+export const filterRecipes = () => {
 	const searchValue = document.getElementById('main-search').value;
 
 	if(searchValue.length === 0){

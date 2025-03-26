@@ -1,9 +1,9 @@
-import { updateWithTags } from "../../index.js";
+import { filterRecipes } from "../../index.js";
 
 export const deleteSearch = () => {
 	let search = document.getElementById('main-search');
 	search.value = '';
-	updateWithTags();
+	filterRecipes();
 	hideBtnDeleteSearch();
 }
 
