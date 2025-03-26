@@ -36,9 +36,11 @@ const mainSearch = () => {
 	})
 }
 
+// filter recipes by search value
 export const filterRecipes = () => {
 	const searchValue = document.getElementById('main-search').value;
 
+	// filter recipes by search value
 	if(searchValue.length > 2){
 		const searchValueLower = searchValue.toLowerCase();
 		currentRecipes = [];
@@ -70,6 +72,7 @@ export const filterRecipes = () => {
 		currentRecipes = [...recipes];
 	}
 
+	// filter recipes by tags
 	if (tags.size > 0) {
 		currentRecipes = currentRecipes.filter(recipe => {
 			return Array.from(tags).every(tag => {
