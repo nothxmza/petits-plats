@@ -52,47 +52,90 @@ window.toggleUstensils = toggleUstensils;
 
 
 export const listSearch = (type) => {
-	const search = document.getElementById(`${type}-search`);
+	let search = document.getElementById(`${type}-search`);
 	const list = document.getElementById(`${type}-ul`);
 	const items = list.getElementsByTagName('li');
+	let deleteButton = document.getElementById(`btn-delete-search-tag-${type}`);
 	let searchValue = "";
 	let searchValueLower = "";
 	let filteredItems = [];
 
-	//creation of tags
-	Array.from(items).forEach(item => {
-        item.addEventListener('click', () => {
-            createTag(item.textContent);
-            
-            const list = document.querySelector(`.${type}-list`);
-            const toggle = document.querySelector(`.toggle-${type}`);
-            if (list && toggle) {
-                list.classList.add('hidden');
-                toggle.classList.remove('hidden');
-            }
-        });
-    });
+	// attach click events to items
+	const attachClickEvents = (items) => {
+		Array.from(items).forEach(item => {
+			item.addEventListener('click', () => {
+				createTag(item.textContent);
+				search.value = '';
+				deleteButton.classList.add('hidden');
+				const list = document.querySelector(`.${type}-list`);
+				const toggle = document.querySelector(`.toggle-${type}`);
+				if (list && toggle) {
+					list.classList.add('hidden');
+					toggle.classList.remove('hidden');
+				}
+			});
+		});
+	};
+
+	// handle delete button search tag
+	if (deleteButton) {
+		deleteButton.addEventListener('click', () => {
+			search.value = '';
+			deleteButton.classList.add('hidden');
+			// Show all items
+			Array.from(items).forEach(item => {
+				item.classList.remove('hidden');
+			});
+			// attach click events to items
+			attachClickEvents(items);
+			const noResultMessage = list.querySelector('.no-result-message');
+			if (noResultMessage) {
+				noResultMessage.remove();
+			}
+		});
+	}
+	attachClickEvents(items);
 
 	//sort list
 	search.addEventListener('input', (e) => {
 		searchValue = e.target.value;
 
 		if(searchValue.length > 1){
+			deleteButton.classList.remove('hidden');
 			searchValueLower = searchValue.toLowerCase();
 			filteredItems = Array.from(items).filter(item => {
 				return item.textContent.toLowerCase().includes(searchValueLower);
 			})
-		}else{
-			filteredItems = Array.from(items);
+			// hidden all items
+			Array.from(items).forEach(item => {
+				item.classList.add('hidden');
+			});
+			// remove no result message if exists
+			const noResultMessage = list.querySelector('.no-result-message');
+			if (noResultMessage) {
+				noResultMessage.remove();
+			}
+			if(filteredItems.length === 0){
+				const li = document.createElement('li');
+				li.textContent = 'Aucun élément trouvé';
+				li.className = 'no-result-message';
+				list.appendChild(li);
+			} else {
+				// show filtered items
+				filteredItems.forEach(item => {
+					item.classList.remove('hidden');
+				});
+			}
+		} else {
+			// Show all items
+			Array.from(items).forEach(item => {
+				item.classList.remove('hidden');
+			});
+			const noResultMessage = list.querySelector('.no-result-message');
+			if (noResultMessage) {
+				noResultMessage.remove();
+			}
 		}
-
-		Array.from(items).forEach(item => {
-			item.classList.add('hidden');
-		})
-
-		filteredItems.forEach(item => {
-			item.classList.remove('hidden');
-		})
 	})
 }
 

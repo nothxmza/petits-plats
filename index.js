@@ -1,5 +1,5 @@
 import { recipes } from "./data/recipes.js";
-import { listTemplates, cardTemplates, updateList } from "./scripts/templates/templates.js";
+import { listTemplates, cardTemplates, updateList, noResultMessageTemplate } from "./scripts/templates/templates.js";
 import { listSearch } from "./scripts/utils/list.js";
 import { displayBtnDeleteSearch, hideBtnDeleteSearch } from "./scripts/utils/mainSearch.js";
 
@@ -39,9 +39,7 @@ const mainSearch = () => {
 export const filterRecipes = () => {
 	const searchValue = document.getElementById('main-search').value;
 
-	if(searchValue.length === 0){
-		currentRecipes = [...recipes];
-	}else if(searchValue.length > 2){
+	if(searchValue.length > 2){
 		const searchValueLower = searchValue.toLowerCase();
 		currentRecipes = [];
 
@@ -68,6 +66,8 @@ export const filterRecipes = () => {
 				currentRecipes.push(recipe);
 			}
 		}
+	}else{
+		currentRecipes = [...recipes];
 	}
 
 	if (tags.size > 0) {
@@ -81,7 +81,7 @@ export const filterRecipes = () => {
 		});
 	}
 
-	displayRecipes();
+	displayRecipes(searchValue);
 	displayCount();
 	updateListDisplay();
     listSearchSort();
@@ -89,14 +89,18 @@ export const filterRecipes = () => {
 
 
 //display recipes cards
-const displayRecipes = () => {
+const displayRecipes = (searchValue = '') => {
 	const wrapperCard = document.getElementById('wrapper-card');
     wrapperCard.innerHTML = "";
     
-    currentRecipes.forEach(recipe => {
-		const card = cardTemplates(recipe);
+	if(currentRecipes.length === 0 && searchValue.length > 2){
+		wrapperCard.appendChild(noResultMessageTemplate(searchValue));
+	}else{
+		currentRecipes.forEach(recipe => {
+			const card = cardTemplates(recipe);
 			wrapperCard.appendChild(card);
-    });
+		});
+	}
 }
 
 const displayCount = () => {
