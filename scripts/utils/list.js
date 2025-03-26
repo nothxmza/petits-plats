@@ -1,5 +1,5 @@
 import { tags } from "../../index.js";
-import { updateWithTags } from "../../index.js";
+import { filterRecipes } from "../../index.js";
 
 
 const toggleIngredient = () => {
@@ -110,9 +110,9 @@ const createTag = (text) => {
 	deleteTag.addEventListener('click', () => {
 		tag.remove();
 		tags.delete(text);
-		updateWithTags();
+		filterRecipes();
 	})
 	tagContainer.appendChild(tag);
 	tags.add(text);
-	updateWithTags();
+	filterRecipes();
 };
