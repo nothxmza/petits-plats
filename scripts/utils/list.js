@@ -135,6 +135,7 @@ export const listSearch = (type) => {
 			if (noResultMessage) {
 				noResultMessage.remove();
 			}
+			deleteButton.classList.add('hidden');
 		}
 	})
 }
